@@ -2,12 +2,14 @@ import React from 'react';
 
 interface EventDetailLayoutProps {
     children: React.ReactNode;
+    params: {
+        eventID: string;
+    }
 }
 
 const EventDetailLayout = ({ children }: EventDetailLayoutProps) => {
     return (
-        <div>
-            <div className='h-64 bg-rose-500'/>
+        <div className='flex flex-col p-16 min-h-screen'>
             {children}
         </div>
     )

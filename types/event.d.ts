@@ -8,3 +8,13 @@ enum SelectContraint{
     SINGLE = "single",
     MULTIPLE = "multiple"
 }
+
+type EventType = {
+    id: string;
+    title: string;
+    description: string;
+    date: string;
+    location: EventLocation;
+    image: string;
+    category: string;
+}

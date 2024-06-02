@@ -1,8 +1,11 @@
 import { Button } from '@/components/ui/button';
-import { Filter } from 'lucide-react';
+import { Filter, Search } from 'lucide-react';
 import Link from 'next/link';
 import React from 'react';
 import { FilterDialog } from './_components/filter';
+import { siteConfig } from '@/config/siteConfig';
+import { EventCard } from './_components/event-card';
+import { SearchBar } from './_components/search-bar';
 
 interface EventsPageProps {
 
@@ -29,13 +32,26 @@ const EventsPage = ({ }: EventsPageProps) => {
                     <Button variant={"outline2"} className="bg-white">View Events</Button> {/*Add scroll to effect */}
                 </div>
             </div>
-            <div className="flex flex-col w-full h-full p-6 lg:px-64 items-center justify-between">
+            <div className="flex flex-col w-full h-full p-6 lg:px-64 items-center justify-between space-y-8">
                 <div className="flex flex-row w-full justify-between">
-                <h2 className="font-bold text-xl">
-                    Upcoming Events (10)
-                </h2>
-                <FilterDialog />
+                    <h2 className="font-bold text-xl">
+                        Upcoming Events (10)
+                    </h2>
+                    <div className='flex flex-row space-x-4 items-center relative'>
+                    <SearchBar />
+                    <FilterDialog />
+                    </div>
                 </div>
+                <div className="flex flex-col w-full h-full max-w-3xl space-y-6">
+                    {
+                        siteConfig.sampleEvents.map((event) => (
+                            <EventCard key={event.id} event={event as EventType} />
+                        ))
+                    }
+                </div>
+                <p className="text-muted-foreground">
+                    That&apos;s all for now! Check back soon for more events.
+                </p>
             </div>
         </main>
     )

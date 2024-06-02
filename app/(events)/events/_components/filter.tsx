@@ -9,7 +9,7 @@ import {
     DialogTrigger,
 } from "@/components/ui/dialog"
 import { ScrollArea } from "@/components/ui/scroll-area"
-import { Button } from '@/components/ui/button';
+import { Button, buttonVariants } from '@/components/ui/button';
 import { ChevronDown, ChevronUp, FilterIcon } from 'lucide-react';
 import {
     Collapsible,
@@ -29,10 +29,8 @@ export const FilterDialog = ({ }: FilterProps) => {
 
     return (
         <Dialog>
-            <DialogTrigger>
-                <Button variant={"outline2"} size={"sm"}>
-                    <FilterIcon className='w-4 h-4 mr-2' /> Filters
-                </Button>
+            <DialogTrigger className={cn(buttonVariants({variant:"outline2", size: "smRounded"}))}>
+            <FilterIcon className='w-4 h-4 mr-2' /> Filters
             </DialogTrigger>
             <DialogContent className='max-w-md md:max-w-lg lg:max-w-xl rounded-md '>
                 <DialogHeader className='items-start'>
