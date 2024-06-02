@@ -6,6 +6,7 @@ import { FilterDialog } from './_components/filter';
 import { siteConfig } from '@/config/siteConfig';
 import { EventCard } from './_components/event-card';
 import { SearchBar } from './_components/search-bar';
+import { FilterField } from './_components/filter-field';
 
 interface EventsPageProps {
 
@@ -32,22 +33,35 @@ const EventsPage = ({ }: EventsPageProps) => {
                     <Button variant={"outline2"} className="bg-white">View Events</Button> {/*Add scroll to effect */}
                 </div>
             </div>
-            <div className="flex flex-col w-full h-full p-6 lg:px-64 items-center justify-between space-y-8">
+            <div className="flex flex-col w-full h-full p-6 lg:px-36 items-center justify-between space-y-8">
                 <div className="flex flex-row w-full justify-between">
                     <h2 className="font-bold text-xl">
                         Upcoming Events (10)
                     </h2>
-                    <div className='flex flex-row space-x-4 items-center relative'>
-                    <SearchBar />
-                    <FilterDialog />
+                    <div className='flex flex-row space-x-4 items-center relative lg:hidden'>
+                        <SearchBar />
+                        <FilterDialog />
+                    </div>
+                    <div className="hidden lg:flex">
+                        <SearchBar className="max-w-2xl" />
                     </div>
                 </div>
-                <div className="flex flex-col w-full h-full max-w-3xl space-y-6">
-                    {
-                        siteConfig.sampleEvents.map((event) => (
-                            <EventCard key={event.id} event={event as EventType} />
-                        ))
-                    }
+                <div className="grid grid-cols-1 lg:grid-cols-5">
+                    <div className=" flex-col h-full space-y-4 max-w-md hidden lg:flex col-span-0 lg:col-span-2 ">
+
+                        {
+                            siteConfig.eventFilters.map((filter) => (
+                                <FilterField key={filter.label} label={filter.label} options={filter.options} selectConstraint={filter.selectConstraint} disabled={filter.disabled} />
+                            ))
+                        }
+                    </div>
+                    <div className="flex flex-col w-full h-full max-w-3xl space-y-6 col-span-1 lg:col-span-3">
+                        {
+                            siteConfig.sampleEvents.map((event) => (
+                                <EventCard key={event.id} event={event as EventType} />
+                            ))
+                        }
+                    </div>
                 </div>
                 <p className="text-muted-foreground">
                     That&apos;s all for now! Check back soon for more events.

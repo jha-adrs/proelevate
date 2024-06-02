@@ -1,5 +1,5 @@
 // Type Declarations for Event
-enum EventLocation {
+export enum EventLocation {
     ONLINE = "online",
     IN_PERSON = "in-person"
 }

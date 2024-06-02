@@ -9,7 +9,7 @@ interface EventDetailLayoutProps {
 
 const EventDetailLayout = ({ children }: EventDetailLayoutProps) => {
     return (
-        <div className='flex flex-col p-16 min-h-screen'>
+        <div className='flex min-h-screen h-full w-full flex-col items-center bg-gray-50'>
             {children}
         </div>
     )

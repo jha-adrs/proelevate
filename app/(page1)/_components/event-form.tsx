@@ -16,6 +16,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger } from '@/components/u
 
 import { toast } from 'sonner';
 import { formSchema } from '@/validators/create-event';
+import { EventLocation } from '@/types/event';
 
 interface EventFormProps {
 
