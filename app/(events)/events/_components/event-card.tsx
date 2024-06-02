@@ -3,7 +3,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import Image from "next/image";
 import Link from "next/link";
-
+import { EventLocation } from "@/types/event";
 interface EventCardProps {
     event: {
         id: string;

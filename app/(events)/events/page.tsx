@@ -7,6 +7,7 @@ import { siteConfig } from '@/config/siteConfig';
 import { EventCard } from './_components/event-card';
 import { SearchBar } from './_components/search-bar';
 import { FilterField } from './_components/filter-field';
+import { EventType } from '@/types/event';
 
 interface EventsPageProps {
 

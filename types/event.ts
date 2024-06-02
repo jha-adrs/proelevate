@@ -4,12 +4,12 @@ export enum EventLocation {
     IN_PERSON = "in-person"
 }
 
-enum SelectContraint{
+export enum SelectContraint{
     SINGLE = "single",
     MULTIPLE = "multiple"
 }
 
-type EventType = {
+export type EventType = {
     id: string;
     title: string;
     description: string;
