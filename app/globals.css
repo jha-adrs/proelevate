@@ -72,12 +72,12 @@
 
   ::-webkit-scrollbar-track {
     /* Customize the scrollbar track */
-    background-color: white;
+    background-color: rgb(232, 232, 232);
   }
 
   ::-webkit-scrollbar-thumb {
     /* Customize the scrollbar thumb */
-    background-color: rgb(28, 28, 28);
+    background-color: rgb(52, 52, 53);
   
   }
 
