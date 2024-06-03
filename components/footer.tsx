@@ -6,7 +6,7 @@ import Link from "next/link"
 
 
 export const Footer = () => {
-    console.log("Footer")
+    //("Footer")
     return (
         <div className="flex min-h-[40vh] flex-col bg-primary px-6 py-8 lg:py-4  text-white space-y-6 items-center justify-center">
             <div className="flex flex-col w-full justify-between lg:flex-row max-w-6xl">

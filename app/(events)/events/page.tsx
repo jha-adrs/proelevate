@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button';
-import { Filter, Search } from 'lucide-react';
+import { Filter, RefreshCcw, Search } from 'lucide-react';
 import Link from 'next/link';
 import React from 'react';
 import { FilterDialog } from './_components/filter';
@@ -7,13 +7,15 @@ import { siteConfig } from '@/config/siteConfig';
 import { EventCard } from './_components/event-card';
 import { SearchBar } from './_components/search-bar';
 import { FilterField } from './_components/filter-field';
-import { EventType } from '@/types/event';
+import { getAllEvents } from '@/actions/get-events';
 
 interface EventsPageProps {
 
 }
 
-const EventsPage = ({ }: EventsPageProps) => {
+const EventsPage = async ({ }: EventsPageProps) => {
+    const data = await getAllEvents();
+    //console.log("ALL EVENTS: ",data);
     return (
         <main className="flex min-h-screen  w-full flex-col items-center bg-gray-50"> {/* TODO : Change bg*/}
             <div className="flex flex-col w-full h-full p-6 lg:px-64 justify-between bg-gradient-to-tr from-gray-200 via-gray-200 to-orange-50">
@@ -37,18 +39,20 @@ const EventsPage = ({ }: EventsPageProps) => {
             <div className="flex flex-col w-full h-full p-6 lg:px-36 items-center justify-between space-y-8">
                 <div className="flex flex-row w-full justify-between">
                     <h2 className="font-bold text-xl">
-                        Upcoming Events (10)
+                        Upcoming Events ({data.count})
                     </h2>
                     <div className='flex flex-row space-x-4 items-center relative lg:hidden'>
                         <SearchBar />
                         <FilterDialog />
                     </div>
-                    <div className="hidden lg:flex">
+                    <div className="hidden lg:flex space-x-2 items-center">
                         <SearchBar className="max-w-2xl" />
+                        <Button variant={"outline"} size={"sm"} className='rounded-full'><RefreshCcw className='w-4 h-4'/></Button>
                     </div>
                 </div>
-                <div className="grid grid-cols-1 lg:grid-cols-5">
-                    <div className=" flex-col h-full space-y-4 max-w-md hidden lg:flex col-span-0 lg:col-span-2 ">
+                <div className="grid grid-cols-1 lg:grid-cols-5 w-full">
+                    <div className=" flex-col h-full space-y-4 max-w-md
+                     hidden lg:flex col-span-0 lg:col-span-2 ">
 
                         {
                             siteConfig.eventFilters.map((filter) => (
@@ -58,8 +62,8 @@ const EventsPage = ({ }: EventsPageProps) => {
                     </div>
                     <div className="flex flex-col w-full h-full max-w-3xl space-y-6 col-span-1 lg:col-span-3">
                         {
-                            siteConfig.sampleEvents.map((event) => (
-                                <EventCard key={event.id} event={event as EventType} />
+                            data.events.map((event) => (
+                                <EventCard key={event.id} event={event} />
                             ))
                         }
                     </div>

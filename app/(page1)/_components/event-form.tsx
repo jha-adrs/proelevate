@@ -7,7 +7,6 @@ import { Textarea } from '@/components/ui/textarea';
 import { cn } from '@/lib/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { CalendarIcon } from 'lucide-react';
-import React from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { format } from 'date-fns'
@@ -17,15 +16,12 @@ import { Select, SelectContent, SelectItem, SelectTrigger } from '@/components/u
 import { toast } from 'sonner';
 import { formSchema } from '@/validators/create-event';
 import { EventLocation } from '@/types/event';
-
-interface EventFormProps {
-
-}
+import { addEvent } from '@/actions/add-event';
 
 
 
 
-export const EventForm = ({ }: EventFormProps) => {
+export const EventForm = () => {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -33,24 +29,27 @@ export const EventForm = ({ }: EventFormProps) => {
             description: "",
             date: new Date(),
             location: EventLocation.ONLINE,
+            deadline: new Date(),
             capacity: 100,
             price: 0,
             image: "",
-            category: "",
-            tags: []
+            tags: ["general"],
+            instructions: "",
         }
     });
 
     function onSubmit(values: z.infer<typeof formSchema>) {
         console.log(values);
-        const isCorrect = formSchema.safeParse(values);
-        if (isCorrect.success) {
-            console.log("Form is correct")
-            toast.success("Form submitted")
-        } else {
-            console.error("Form is incorrect")
-            toast.error("Form is incorrect")
+        const data = formSchema.parse(values);
+        addEvent(data).then((event) => {
+            if (event) {
+                toast.success("Event created successfully");
+                form.reset();
+            } else {
+                toast.error("An error occurred while creating the event");
+            }
         }
+        )
     }
     return (
         <div className="flex flex-col items-center justify-center space-y-6 border rounded-lg p-4 pt-8 w-full max-w-lg">
@@ -88,7 +87,7 @@ export const EventForm = ({ }: EventFormProps) => {
                             ({ field }) => {
                                 return (
                                     <FormItem>
-                                        <FormLabel>Event Title</FormLabel>
+                                        <FormLabel>Event Description</FormLabel>
 
                                         <FormDescription>Give your event a description</FormDescription>
                                         <FormControl>
@@ -144,6 +143,50 @@ export const EventForm = ({ }: EventFormProps) => {
                             </FormItem>
                         )}
                     />
+                    <FormField
+                        control={form.control}
+                        name="deadline"
+                        render={({ field }) => (
+                            <FormItem className="flex flex-col">
+                                <FormLabel>Event Registration Deadline</FormLabel>
+                                <Popover>
+                                    <PopoverTrigger asChild>
+                                        <FormControl>
+                                            <Button
+                                                variant={"outline"}
+                                                className={cn(
+                                                    "w-[240px] pl-3 text-left font-normal",
+                                                    !field.value && "text-muted-foreground"
+                                                )}
+                                            >
+                                                {field.value ? (
+                                                    format(field.value, "PPP")
+                                                ) : (
+                                                    <span>Pick a date</span>
+                                                )}
+                                                <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                                            </Button>
+                                        </FormControl>
+                                    </PopoverTrigger>
+                                    <PopoverContent className="w-auto p-0" align="start">
+                                        <Calendar
+                                            mode="single"
+                                            selected={field.value}
+                                            onSelect={field.onChange}
+                                            disabled={(date) =>
+                                                date <= new Date()
+                                            }
+                                            initialFocus
+                                        />
+                                    </PopoverContent>
+                                </Popover>
+                                <FormDescription>
+                                    Please select your event deadline {/*Add date range later*/}
+                                </FormDescription>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
 
                     <FormField
                         name="location"
@@ -192,9 +235,27 @@ export const EventForm = ({ }: EventFormProps) => {
                             </FormItem>
                         )}
                     />
-    
-                    <Button type="submit" variant={"default2"}>Submit</Button>
+                    <FormField
+                        name="instructions"
+                        control={form.control}
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>Event Instructions</FormLabel>
+                                <FormDescription>
+                                    Provide any instructions for your event
+                                </FormDescription>
+                                <FormControl>
+                                    <Textarea placeholder='Instructions...' {...field} />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+
+                    <Button type="submit" variant={"default2"} size={"lgRounded"}>
+                        Submit</Button>
                 </form>
+
             </Form>
         </div>
     )

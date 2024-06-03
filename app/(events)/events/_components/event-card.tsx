@@ -9,10 +9,13 @@ interface EventCardProps {
         id: string;
         title: string;
         description: string;
-        date: string;
-        location: EventLocation;
+        date: Date;
+        location: "online" | "in-person";
         image: string;
-        category: string;
+        deadline: Date;
+        instructions: string;
+        capacity: number;
+        tags: string[];
     }
 }
 
@@ -22,7 +25,7 @@ export const EventCard = ({
     return (
         <Link href={`/events/${event.id}`} target="_blank">
             <Card>
-                <div className="flex flex-row items-center justify-center w-full  h-full p-4">
+                <div className="flex flex-row items-center justify-start w-full  h-full p-4">
                     <Avatar>
                         <AvatarImage src={event.image} alt="Image" />
                         <AvatarFallback>TC</AvatarFallback>
@@ -32,20 +35,20 @@ export const EventCard = ({
                             {event.title}
                         </CardTitle>
                         <CardDescription>
-                            {event.description}
+                            {event.description.slice(0, 300)}. . .
                         </CardDescription>
                     </CardHeader>
                 </div>
                 <CardContent>
                     <div className="flex-1 space-x-2">
-                        <Badge variant="default" className="capitalize">
+                        <Badge variant="secondary" className="capitalize">
                             {event.location}
                         </Badge>
-                        <Badge variant="secondary" className=" bg-gray-300">
-                            {event.date}
+                        <Badge variant="secondary" className=" bg-emerald-300">
+                            {event.date.toDateString()}
                         </Badge>
-                        <Badge variant="secondary" className=" bg-gray-300">
-                            {event.category}
+                        <Badge variant="destructive" className=" ">
+                            {event.deadline.toDateString()}
                         </Badge>
                     </div>
                 </CardContent>

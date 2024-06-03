@@ -6,7 +6,7 @@ import { Button } from "./ui/button"
 
 
 export const Navbar = () => {
-    console.log("Navbar")
+    //console.log("Navbar")
     return (
         <div className="h-20 bg-gray-100 flex  px-4 md:px-16 lg:px-16 xl:px-36 items-center justify-between">
             <Link href="/">

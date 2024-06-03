@@ -1,12 +1,36 @@
 "use server"
-
-import { siteConfig } from "@/config/siteConfig"
+import { redis } from "@/lib/redis";
+import { eventSchema } from "@/validators/create-event";
 
 export const getEventDetails = async (eventID: string) => {
-    const event = siteConfig.sampleEvents.find((event) => event.id === eventID)
+    const event = await redis.get(`event:${eventID}`) as object;
+    console.log("Event Details: ", event, eventID);
     if (!event) {
-        throw new Error('Event not found')
+        return null;
     }
-    //await new Promise((resolve) => setTimeout(resolve, 2000)); // Simulate network delay
-    return event;
+    const {
+        title,
+        description,
+        date,
+        location,
+        image,
+        deadline,
+        instructions,
+        capacity,
+        tags
+    
+    } = eventSchema.parse(event);
+    let returnData = {
+        id: eventID,
+        title,
+        description,
+        date: new Date(date),
+        location,
+        image,
+        deadline: new Date(deadline),
+        instructions,
+        capacity,
+        tags
+    }
+    return returnData;
 }
