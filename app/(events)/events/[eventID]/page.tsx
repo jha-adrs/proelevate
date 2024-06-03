@@ -28,6 +28,7 @@ const EventDetail = async ({ params: { eventID } }: EventDetailProps) => {
         tags,
         instructions,
         deadline,
+        capacity
     } = eventDetails;
     return (
         <div className='flex flex-col w-full h-full p-6 lg:px-32 items-center lg:items-start justify-center lg:justify-between space-y-6'>
@@ -44,11 +45,11 @@ const EventDetail = async ({ params: { eventID } }: EventDetailProps) => {
                 <div className="grid grid-cols-1 lg:grid-cols-3 p-6 space-y-6 lg:space-y-0 w-full h-full">
                     <div className="col-span-1 lg:order-last max-w-xl space-y-6 ">
                         <div className="bg-gray-100 flex flex-row p-4 space-x-6 rounded-md border">
-                            <Image src={image} alt={title} width={100} height={100} />
+                            <Image src={image} alt={title} width={100} height={100} className='rounded-full'/>
                             <div className="flex flex-col font-semibold text-md space-y-2">
                                 <p className='inline-flex items-center'><CalendarCheck className='w-5 h-5 mr-2' /> {date.toDateString()}</p> {/* Make it in words */}
                                 <p className='inline-flex capitalize items-center'><LocateFixedIcon className='w-5 h-5 mr-2' /> {location}</p>
-                                <div className="flex flex-col lg:flex-row space-x-2">
+                                <div className="flex flex-col lg:flex-row space-x-2 space-y-4 lg:space-y-0">
                                     <Button variant={"default2"} size={"smRounded"}>
                                         Register Now
                                     </Button>
@@ -63,8 +64,11 @@ const EventDetail = async ({ params: { eventID } }: EventDetailProps) => {
 
                             <div className="flex flex-col font-semibold text-md space-y-2">
                                 <p className='inline-flex  items-center justify-start'>
-                                    <Users2Icon className='w-5 h-5 mr-2' /> Team Size
-                                    <span className="text-muted-foreground ml-5">1-5 members</span>
+                                    <Users2Icon className='w-5 h-5 mr-2' /> Capacity
+                                    <span className="text-muted-foreground ml-5">
+
+                                        {capacity}
+                                    </span>
                                 </p>
                                 <p className='inline-flex  items-center justify-start'>
                                     <CalendarClockIcon className='w-5 h-5 mr-2' />
